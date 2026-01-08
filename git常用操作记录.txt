@@ -1,0 +1,65 @@
+普通新建仓库流程：
+git init
+git add .
+git commit -m"first"
+
+gh repo create NSFC --source=. --remote=origin --push --private
+git push -u origin main
+
+-------------------------
+常见问题：
+# 1. 登录 GitHub CLI（只需做一次或 token 失效时重做）
+gh auth logout                  # （可选）先登出旧账号，避免冲突
+gh auth login                   # 选择 HTTPS → Paste token → 用 Classic PAT（必须勾选 repo 权限）
+
+# 2. 创建远程私密仓库并尝试关联本地（仓库名这里用 AE）
+gh repo create AE --source=. --remote=origin --push --private
+# 如果提示 Unable to add remote "origin" → 说明本地已有 origin，跳到第3步手动修复
+
+# 3. 手动修复 remote（因为已有旧的 origin）
+git remote set-url origin https://github.com/lvdacong/AE.git   # 修改为新仓库 URL
+
+git remote -v                   # 确认 URL 已正确更新为 AE.git
+
+# 4. 推送代码（远程仓库有初始 commit，会被拒绝）
+git push -u origin main
+# 报错 ! [rejected] ... (fetch first) → 说明远程已有内容
+
+# 5. 解决推送被拒绝（两种方法任选其一）
+
+# 方法A：强制推送（推荐，新仓库初始内容不重要时最快）
+git push -u origin main --force         # 强制覆盖远程，丢失远程初始 commit
+
+# 方法B：先拉取合并（想保留远程初始文件时用）
+# git pull origin main --allow-unrelated-histories   # 合并无关历史，可能有冲突
+# 解决冲突后：
+# git add .
+# git commit -m "Merge remote initial commit"
+# git push -u origin main
+
+# 6. 设置 Git 作者信息（让以后所有新 commit 显示为 lvdacong）
+git config user.name "lvdacong"                  # 当前项目设置用户名
+git config user.email "lvdacong314@gmail.com"   # 用你在 GitHub 上已验证的真实邮箱
+
+# 如果想全局生效（所有项目都用这个身份）：
+# git config --global user.name "lvdacong"
+# git config --global user.email "lvdacong314@gmail.com"
+
+git config user.name     # 验证：应输出 lvdacong
+git config user.email    # 验证：应输出你的邮箱
+
+# 7. 测试新作者是否生效
+echo "# test by lvdacong" >> test.md            # 新增一行内容
+git add test.md
+git commit -m "test: commit with correct author"
+git push                                        # 正常推送（已设置上游，可省略参数）
+
+# 8. 以后日常操作（已设置上游分支后最简）
+git add .
+git commit -m "你的提交信息"
+git push                                        # 直接推送即可
+git pull                                        # 直接拉取更新
+
+# 9. 检查并修复分支名（旧仓库常使用 master，新仓库默认 main）
+git branch                      # 查看当前分支，通常显示 * master 或 * main
+git branch -M main              # 如果是 master，强制重命名为 main（推荐）

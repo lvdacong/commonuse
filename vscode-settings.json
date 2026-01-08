@@ -1,0 +1,69 @@
+{
+  "chatgpt.apiBase": "https://code.ppchat.vip/v1",
+  "chatgpt.config": {
+    "preferred_auth_method": "apikey",
+    "model": "gpt-5",
+    "model_reasoning_effort": "high",
+    "wire_api": "responses"
+  },
+  "workbench.settings.applyToAllProfiles": [
+  
+  ],
+  "chatgpt.openOnStartup": true,
+  "editor.wordWrap": "on",
+  "chat.tools.global.autoApprove": true,
+  "claudeCode.selectedModel": "default",
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "claudeCode.preferredLocation": "panel",
+
+  "latex-workshop.latex.tools": [
+    {"name": "xelatex", "command": "xelatex", "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "%DOC%"]},
+    {"name": "pdflatex", "command": "pdflatex", "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "%DOC%"]},
+    {"name": "lualatex", "command": "lualatex", "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "%DOC%"]},
+    {"name": "latexmk_xelatex", "command": "latexmk", "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-xelatex", "-outdir=%OUTDIR%", "%DOC%"]},
+    {"name": "latexmk_pdflatex", "command": "latexmk", "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-pdf", "-outdir=%OUTDIR%", "%DOC%"]},
+    {"name": "latexmk_lualatex", "command": "latexmk", "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-lualatex", "-outdir=%OUTDIR%", "%DOC%"]},
+    {"name": "bibtex", "command": "bibtex", "args": ["%DOCFILE%"]},
+    {"name": "biber", "command": "biber", "args": ["%DOCFILE%"]}
+  ],
+
+  "latex-workshop.latex.recipes": [
+    {"name": "XeLaTeX x 2 (默认)", "tools": ["xelatex", "xelatex"]},
+    {"name": "XeLaTeX (单次)", "tools": ["xelatex"]},
+    {"name": "xe-biber-xe-xe", "tools": ["xelatex", "biber", "xelatex", "xelatex"]},
+    {"name": "XeLaTeX + BibTeX + XeLaTeX x 2", "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]},
+    {"name": "pdfLaTeX x 2", "tools": ["pdflatex", "pdflatex"]},
+    {"name": "pdfLaTeX (单次)", "tools": ["pdflatex"]},
+    {"name": "pdfLaTeX + BibTeX + pdfLaTeX x 2", "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]},
+    {"name": "LuaLaTeX", "tools": ["lualatex"]},
+    {"name": "latexmk (XeLaTeX)", "tools": ["latexmk_xelatex"]},
+    {"name": "latexmk (pdfLaTeX)", "tools": ["latexmk_pdflatex"]},
+    {"name": "latexmk (LuaLaTeX)", "tools": ["latexmk_lualatex"]}
+  ],
+
+  "latex-workshop.latex.recipe.default": "lastUsed",
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.autoBuild.interval": 1000,
+
+  "latex-workshop.latex.autoClean.run": "onBuilt",
+  "latex-workshop.latex.clean.fileTypes": [
+    "*.aux", "*.bak", "*.blg", "*.fdb_latexmk", "*.fls",
+    "*.idx", "*.ilg", "*.ind", "*.lof", "*.log", "*.lot",
+    "*.nav", "*.out", "*.snm", "*.toc", "*.vrb", "*.xdv",
+    "*.bcf", "*.run.xml", "*.dvi", "*.glg", "*.glo", "*.gls",
+    "*.ist", "*.acn", "*.acr", "*.alg", "*.glsdefs",
+    "*.nlo", "*.nls", "*.nlg", "*.synctex.gz", "*.synctex(busy)"
+  ],
+  "latex-workshop.latex.clean.subfolder.enabled": true,
+
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
+  "latex-workshop.message.error.show": true,
+  "latex-workshop.message.warning.show": true,
+  "latex-workshop.intellisense.package.enabled": true,
+  "latex-workshop.latexindent.path": "latexindent",
+  "latex-workshop.latexindent.args": ["-c", "%DIR%/", "%TMPFILE%", "-y=defaultIndent: '  '"],
+  "latex-workshop.view.outline.sections": ["part", "chapter", "section", "subsection", "subsubsection"],
+  "latex-workshop.hover.preview.enabled": true,
+  "latex-workshop.hover.preview.scale": 1.0
+}
