@@ -1,19 +1,9 @@
 {
-  "chatgpt.apiBase": "https://code.ppchat.vip/v1",
-  "chatgpt.config": {
-    "preferred_auth_method": "apikey",
-    "model": "gpt-5",
-    "model_reasoning_effort": "high",
-    "wire_api": "responses"
-  },
-  "workbench.settings.applyToAllProfiles": [
-  
-  ],
-  "chatgpt.openOnStartup": true,
   "editor.wordWrap": "on",
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+
   "chat.tools.global.autoApprove": true,
   "claudeCode.selectedModel": "default",
-  "terminal.integrated.defaultProfile.windows": "Command Prompt",
   "claudeCode.preferredLocation": "panel",
 
   "latex-workshop.latex.tools": [
