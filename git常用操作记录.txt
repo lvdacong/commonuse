@@ -4,13 +4,13 @@ git add .
 git commit -m"first"
 
 新建远程仓，设置私密性：
-gh repo create commonuse --source=. --remote=origin --push --private
+gh repo create article_1nd_UNet_ResAttention_3Dfullfield --source=. --remote=origin --push --private
 
 error: src refspec main does not match any（先确保左下角不是master而是main）：
 git branch -M main
 
 fatal: 'origin' does not appear to be a git repository（确保已经添加了远程仓库地址）
-git remote add origin https://github.com/lvdacong/commonuse.git
+git remote add origin https://github.com/lvdacong/article_1nd_UNet_ResAttention_3Dfullfield.git
 
 如果已经添加过，想要更换绑定的远程仓库，则：
 git remote set-url origin https://github.com/lvdacong/AE.git
