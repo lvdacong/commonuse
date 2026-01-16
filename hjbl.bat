@@ -18,20 +18,28 @@ if not exist "%NEW_PATH%" (
     )
 )
 
+set "USER_PATH="
 for /f "tokens=2*" %%a in ('reg query "HKCU\Environment" /v PATH 2^>nul') do set "USER_PATH=%%b"
 
-echo %USER_PATH% | findstr /i /c:"%NEW_PATH%" >nul
-if %errorlevel%==0 (
+if not defined USER_PATH (
+    echo User PATH is empty, creating new...
+    setx PATH "%NEW_PATH%" >nul
+    goto :checkresult
+)
+
+set "FOUND=0"
+for %%p in ("!USER_PATH:;=" "!") do (
+    if /i "%%~p"=="%NEW_PATH%" set "FOUND=1"
+)
+
+if !FOUND!==1 (
     echo Path already exists in USER PATH: %NEW_PATH%
     exit /b 0
 )
 
-if defined USER_PATH (
-    setx PATH "%USER_PATH%;%NEW_PATH%" >nul
-) else (
-    setx PATH "%NEW_PATH%" >nul
-)
+setx PATH "!USER_PATH!;%NEW_PATH%" >nul
 
+:checkresult
 if %errorlevel%==0 (
     echo Successfully added to USER PATH: %NEW_PATH%
     echo Please restart your terminal for changes to take effect.
