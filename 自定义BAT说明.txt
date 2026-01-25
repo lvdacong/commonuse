@@ -1,0 +1,7 @@
+commonuse 自定义 BAT 文件说明
+================================
+
+gcp     - 当前目录 git add/commit/push 一键提交
+gall    - 批量更新 C:\data 下所有 git 仓库
+cld     - 启动 Claude (自动配置代理)
+hjbl    - 添加路径到用户环境变量, 用法: hjbl <路径>
