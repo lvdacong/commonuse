@@ -3,5 +3,5 @@ commonuse 自定义 BAT 文件说明
 
 gcp     - 当前目录 git add/commit/push 一键提交
 gall    - 批量更新 C:\data 下所有 git 仓库
-cld     - 启动 Claude (自动配置代理)
+claude  - 启动 Claude Code 包装器, 自动按系统代理状态注入 HTTP_PROXY/HTTPS_PROXY, 透明转发到 C:\Users\ASUS\.local\bin\claude.exe (详见 claude代理包装器配置.md)
 hjbl    - 添加路径到用户环境变量, 用法: hjbl <路径>
