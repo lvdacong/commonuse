@@ -14,7 +14,7 @@
 
 ## 最终方案
 
-在 `C:\data\commonuse\` 下放一个 `claude.bat` 包装器，让它在 PATH 顺序上排到真正的 `claude.exe` 前面，从而成为 `claude` 命令的真正入口。包装器做三件事：
+在 `C:\data\工具与依赖\commonuse\` 下放一个 `claude.bat` 包装器，让它在 PATH 顺序上排到真正的 `claude.exe` 前面，从而成为 `claude` 命令的真正入口。包装器做三件事：
 
 1. 读取 Windows 注册表里的系统代理状态
 2. 根据状态决定是否注入 `HTTP_PROXY`/`HTTPS_PROXY` 环境变量
@@ -44,14 +44,14 @@
 
 ### PATH 顺序的关键
 
-Windows 解析命令时会按 PATH 目录顺序逐个查找。`claude.exe` 的真实安装位置是 `C:\Users\ASUS\.local\bin\claude.exe`，这个目录原本在用户 PATH 里排在 `C:\data\commonuse` 前面，会被先找到。
+Windows 解析命令时会按 PATH 目录顺序逐个查找。`claude.exe` 的真实安装位置是 `C:\Users\ASUS\.local\bin\claude.exe`，这个目录原本在用户 PATH 里排在 `C:\data\工具与依赖\commonuse` 前面，会被先找到。
 
-为了让包装器生效，必须把 `C:\data\commonuse` 移动到 `C:\Users\ASUS\.local\bin` **前面**。改动是在用户 PATH 里做的，不涉及系统 PATH，无需管理员权限。
+为了让包装器生效，必须把 `C:\data\工具与依赖\commonuse` 放在 `C:\Users\ASUS\.local\bin` **前面**。改动是在用户 PATH 里做的，不涉及系统 PATH，无需管理员权限。
 
 修改后的相关顺序：
 
 ```
-... npm ; C:\data\commonuse ; C:\Users\ASUS\.local\bin ; VS Code\bin ; ...
+... npm ; C:\data\工具与依赖\commonuse ; C:\Users\ASUS\.local\bin ; VS Code\bin ; ...
 ```
 
 PATH 改动是直接写注册表 `HKCU\Environment\Path` 完成的，写入时用 `REG_EXPAND_SZ` 类型保留 `%VAR%` 展开能力，写完后广播 `WM_SETTINGCHANGE` 让新进程能立即拿到新值。
@@ -75,7 +75,7 @@ claude doctor
 
 | 路径 | 作用 |
 |---|---|
-| `C:\data\commonuse\claude.bat` | 包装器本身，是这套方案的核心文件 |
+| `C:\data\工具与依赖\commonuse\claude.bat` | 包装器本身，是这套方案的核心文件 |
 | `C:\Users\ASUS\.local\bin\claude.exe` | Claude Code 官方安装的二进制，包装器调用它 |
 | `C:\Users\ASUS\.claude\settings.json` | 包含 `permissions.defaultMode: bypassPermissions` 和 `skipDangerousModePermissionPrompt: true`，让 Claude 启动时直接进入跳过权限确认模式 |
 | `C:\Users\ASUS\Documents\user_path_backup_<时间戳>.txt` | 修改 PATH 之前的备份，稳定后可删 |
@@ -93,7 +93,7 @@ where claude
 正确输出应该是两行，`.bat` 排在第一行：
 
 ```
-C:\data\commonuse\claude.bat
+C:\data\工具与依赖\commonuse\claude.bat
 C:\Users\ASUS\.local\bin\claude.exe
 ```
 
@@ -121,8 +121,8 @@ C:\Users\ASUS\.local\bin\claude.exe
 
 说明 PATH 顺序错了或者文件丢了。检查：
 
-1. `C:\data\commonuse\claude.bat` 是否存在
-2. 注册表 `HKCU\Environment\Path` 里 `C:\data\commonuse` 是否在 `C:\Users\ASUS\.local\bin` 前面
+1. `C:\data\工具与依赖\commonuse\claude.bat` 是否存在
+2. 注册表 `HKCU\Environment\Path` 里 `C:\data\工具与依赖\commonuse` 是否在 `C:\Users\ASUS\.local\bin` 前面
 3. 是否在新开的终端窗口里测试，已经打开的进程不会拿到 PATH 修改后的值
 
 ### `claude` 启动后报网络错误
@@ -136,14 +136,14 @@ C:\Users\ASUS\.local\bin\claude.exe
 
 ### Claude 自动更新后包装器失效
 
-Claude Code 自动更新只会覆盖 `C:\Users\ASUS\.local\bin\claude.exe`，不会动 `C:\data\commonuse\claude.bat` 和 PATH 注册表。所以正常情况下更新不会破坏这套方案。
+Claude Code 自动更新只会覆盖 `C:\Users\ASUS\.local\bin\claude.exe`，不会动 `C:\data\工具与依赖\commonuse\claude.bat` 和 PATH 注册表。所以正常情况下更新不会破坏这套方案。
 
 如果哪天 Claude 改了安装位置，需要把 `claude.bat` 里的 `C:\Users\ASUS\.local\bin\claude.exe` 这一行改成新的路径。
 
 ## 重装系统时的复刻步骤
 
 1. 装好 Claude Code 官方版，确认 `claude.exe` 安装到了 `C:\Users\ASUS\.local\bin\claude.exe`
-2. 把这个目录下的 `claude.bat` 复制到 `C:\data\commonuse\`
-3. 把 `C:\data\commonuse` 加到用户 PATH，且必须排在 `C:\Users\ASUS\.local\bin` 前面
+2. 把这个目录下的 `claude.bat` 复制到 `C:\data\工具与依赖\commonuse\`
+3. 把 `C:\data\工具与依赖\commonuse` 加到用户 PATH，且必须排在 `C:\Users\ASUS\.local\bin` 前面
 4. 在 `~/.claude/settings.json` 里设置 `permissions.defaultMode: bypassPermissions` 和 `skipDangerousModePermissionPrompt: true`
 5. 新开终端，`where claude` 验证包装器在前，`claude --version` 验证能跑
